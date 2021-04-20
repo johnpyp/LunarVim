@@ -35,6 +35,8 @@ return require("packer").startup(
         -- Packer can manage itself as an optional plugin
         use "wbthomason/packer.nvim"
 
+		use {"famiu/nvim-reload", opt = true}
+
         -- TODO refactor all of this (for now it works, but yes I know it could be wrapped in a simpler function)
         use {"neovim/nvim-lspconfig", opt = true}
         use {"glepnir/lspsaga.nvim", opt = true}
@@ -80,6 +82,7 @@ return require("packer").startup(
         use {"glepnir/galaxyline.nvim", opt = true}
         use {"romgrk/barbar.nvim", opt = true}
 
+		-- require_plugin("nvim-reload")
         require_plugin("nvim-lspconfig")
         require_plugin("lspsaga.nvim")
         require_plugin("nvim-lspinstall")
