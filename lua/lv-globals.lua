@@ -1,11 +1,11 @@
 O = {
-    auto_close_tree = 0,
+    auto_close_tree = 1,
     auto_complete = true,
-    colorscheme = 'lunar',
+    colorscheme = 'onedark',
     hidden_files = true,
     wrap_lines = false,
     number = true,
-    relative_number = true,
+    relative_number = false,
     shell = 'bash',
 
     -- @usage pass a table with your desired languages
@@ -29,8 +29,8 @@ O = {
     dart = {sdk_path = '/usr/lib/dart/bin/snapshots/analysis_server.dart.snapshot'},
     lua = {
         -- @usage can be 'lua-format'
-        formatter = '',
-        autoformat = false,
+        formatter = 'lua-format',
+        autoformat = true,
         diagnostics = {virtual_text = true, signs = true, underline = true}
     },
     sh = {

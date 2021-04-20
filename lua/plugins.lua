@@ -1,16 +1,37 @@
 local execute = vim.api.nvim_command
 local fn = vim.fn
 
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local function bootstrap_packer(namespace)
+  local packer_root = vim.fn.stdpath('data') .. '/packer/' .. namespace
+  local install_path = packer_root .. '/pack/packer/start/packer.nvim'
 
-if fn.empty(fn.glob(install_path)) > 0 then
-    execute("!git clone https://github.com/wbthomason/packer.nvim " .. install_path)
-    execute "packadd packer.nvim"
+  -- Tell vim to look at the root
+  vim.o.packpath = packer_root
+
+  -- Install
+  if fn.empty(fn.glob(install_path)) > 0 then
+    fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+    execute 'packadd packer.nvim'
+  end
+
+  local opt_prefix = packer_root .. '/pack/packer/opt/'
+  local conf = {
+    package_root = packer_root .. '/pack',
+    compile_path = packer_root .. '/packer_compiled.vim',
+    profile = {
+      enable = true,
+      threshold = 1 -- the amount in ms that a plugins load time must be over for it to be included in the profile
+    }
+  }
+
+  return conf, opt_prefix
 end
+
+local packer_conf, opt_prefix = bootstrap_packer("lunar-nvim")
 
 --- Check if a file or directory exists in this path
 local function require_plugin(plugin)
-    local plugin_prefix = fn.stdpath("data") .. "/site/pack/packer/opt/"
+    local plugin_prefix = opt_prefix
 
     local plugin_path = plugin_prefix .. plugin .. "/"
     --	print('test '..plugin_path)
@@ -30,7 +51,7 @@ end
 
 vim.cmd "autocmd BufWritePost plugins.lua PackerCompile" -- Auto compile when there are changes in plugins.lua
 
-return require("packer").startup(
+return require("packer").startup {
     function(use)
         -- Packer can manage itself as an optional plugin
         use "wbthomason/packer.nvim"
@@ -81,6 +102,7 @@ return require("packer").startup(
         -- Status Line and Bufferline
         use {"glepnir/galaxyline.nvim", opt = true}
         use {"romgrk/barbar.nvim", opt = true}
+		use {"akinsho/nvim-bufferline.lua", opt = true}
 
 		-- require_plugin("nvim-reload")
         require_plugin("nvim-lspconfig")
@@ -104,6 +126,7 @@ return require("packer").startup(
         require_plugin("nvcode-color-schemes.vim")
         require_plugin("nvim-web-devicons")
         require_plugin("galaxyline.nvim")
-        require_plugin("barbar.nvim")
+        -- require_plugin("barbar.nvim")
+        require_plugin("nvim-bufferline.lua")
     end
-)
+, config = packer_conf }

@@ -44,6 +44,7 @@ vim.api.nvim_set_keymap('v', '>', '>gv', {noremap = true, silent = true})
 -- Tab switch buffer
 vim.api.nvim_set_keymap('n', 'L', ':bnext<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', 'H', ':bprevious<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<leader>q', ':bd<CR>', {noremap = true, silent = true})
 
 -- -- Move selected line / block of text in visual mode
 -- vim.api.nvim_set_keymap('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
@@ -52,6 +53,7 @@ vim.api.nvim_set_keymap('n', 'H', ':bprevious<CR>', {noremap = true, silent = tr
 -- Better nav for omnicomplete
 vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
 vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
+
 -- vim.cmd('inoremap <expr> <TAB> (\"\\<C-n>\")')
 -- vim.cmd('inoremap <expr> <S-TAB> (\"\\<C-p>\")')
 
@@ -66,3 +68,7 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 
 vim.api.nvim_set_keymap('n', '<C-p>', ':Telescope find_files<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<C-i>', ':Telescope live_grep<CR>', {noremap = true, silent = true})
+
+vim.api.nvim_set_keymap('', '<leader>y', '"+y', {noremap = true})
+vim.api.nvim_set_keymap('', '<leader>p', '"+p', {noremap = true})
+vim.api.nvim_set_keymap('v', 'y', 'ygv<Esc>', {silent = true})

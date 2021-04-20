@@ -21,7 +21,10 @@ vim.cmd("nnoremap <silent> gD <cmd>lua vim.lsp.buf.declaration()<CR>")
 vim.cmd("nnoremap <silent> gr <cmd>lua vim.lsp.buf.references()<CR>")
 vim.cmd("nnoremap <silent> gi <cmd>lua vim.lsp.buf.implementation()<CR>")
 vim.cmd("nnoremap <silent> ca :Lspsaga code_action<CR>")
+vim.cmd("nnoremap <silent> cr :Lspsaga rename<CR>")
+vim.cmd("vnoremap <silent> ca :<C-u>Lspsaga range_code_action<CR>")
 vim.cmd("nnoremap <silent> K :Lspsaga hover_doc<CR>")
+vim.cmd("nnoremap <silent> <C-k> :Lspsaga signature_help<CR>")
 -- vim.cmd('nnoremap <silent> <C-k> <cmd>lua vim.lsp.buf.signature_help()<CR>')
 -- vim.cmd("nnoremap <silent> <C-p> :Lspsaga diagnostic_jump_prev<CR>")
 vim.cmd("nnoremap <silent> <C-n> :Lspsaga diagnostic_jump_next<CR>")
@@ -88,6 +91,12 @@ end
 local lsp_config = {}
 
 function lsp_config.common_on_attach(client, bufnr)
+	if client.resolved_capabilities.document_formatting then
+	  vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", {noremap=true, silent=true})
+	end
+	if client.resolved_capabilities.document_range_formatting then
+	  vim.api.nvim_buf_set_keymap(bufnr, "v", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", {noremap=true, silent=true})
+	end
     documentHighlight(client, bufnr)
 end
 
